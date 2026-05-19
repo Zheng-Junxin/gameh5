@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>贪吃蛇</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="game-container">
+    <div class="game-header">
+      <span class="score">得分: <span id="score">0</span></span>
+      <span class="best">最高: <span id="best">0</span></span>
+    </div>
+    <canvas id="canvas"></canvas>
+    <div class="mobile-controls" id="mobileControls">
+      <button class="ctrl-btn" data-dir="up">▲</button>
+      <div class="ctrl-row">
+        <button class="ctrl-btn" data-dir="left">◀</button>
+        <button class="ctrl-btn" data-dir="down">▼</button>
+        <button class="ctrl-btn" data-dir="right">▶</button>
+      </div>
+    </div>
+    <div class="game-overlay" id="overlay">
+      <div class="overlay-content">
+        <h2 id="overlayTitle">贪吃蛇</h2>
+        <p id="overlayMsg">按空格键或点击开始</p>
+      </div>
+    </div>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+[
+  {
+    "id": "snake",
+    "title": "贪吃蛇",
+    "titleEn": "Snake",
+    "category": "classic",
+    "categoryName": "经典",
+    "description": "经典贪吃蛇游戏，控制小蛇吃掉食物不断成长，挑战最高分！",
+    "thumbnailBg": "#4CAF50",
+    "thumbnailIcon": "🐍",
+    "controls": "方向键 / WASD / 滑动",
+    "players": "单人",
+    "difficulty": "简单"
+  },
+  {
+    "id": "tetris",
+    "title": "俄罗斯方块",
+    "titleEn": "Tetris",
+    "category": "classic",
+    "categoryName": "经典",
+    "description": "经典俄罗斯方块，消除行数获得高分，挑战你的反应速度！",
+    "thumbnailBg": "#2196F3",
+    "thumbnailIcon": "🧱",
+    "controls": "方向键 / 屏幕按钮",
+    "players": "单人",
+    "difficulty": "中等"
+  },
+  {
+    "id": "2048",
+    "title": "2048",
+    "titleEn": "2048",
+    "category": "puzzle",
+    "categoryName": "益智",
+    "description": "滑动合并数字方块，努力达到2048，考验你的逻辑思维！",
+    "thumbnailBg": "#FF9800",
+    "thumbnailIcon": "🔢",
+    "controls": "方向键 / 滑动",
+    "players": "单人",
+    "difficulty": "中等"
+  },
+  {
+    "id": "flappy",
+    "title": "飞翔的小鸟",
+    "titleEn": "Flappy Bird",
+    "category": "action",
+    "categoryName": "动作",
+    "description": "点击屏幕让小鸟飞过管道，看看你能飞多远！",
+    "thumbnailBg": "#4DD0E1",
+    "thumbnailIcon": "🐦",
+    "controls": "空格键 / 点击",
+    "players": "单人",
+    "difficulty": "困难"
+  },
+  {
+    "id": "memory",
+    "title": "记忆翻牌",
+    "titleEn": "Memory Match",
+    "category": "casual",
+    "categoryName": "休闲",
+    "description": "翻开卡片找到配对的图案，锻炼你的记忆力！",
+    "thumbnailBg": "#E91E63",
+    "thumbnailIcon": "🃏",
+    "controls": "鼠标 / 触屏点击",
+    "players": "单人",
+    "difficulty": "简单"
+  },
+  {
+    "id": "breakout",
+    "title": "打砖块",
+    "titleEn": "Breakout",
+    "category": "action",
+    "categoryName": "动作",
+    "description": "控制挡板反弹小球击碎所有砖块，经典街机游戏！",
+    "thumbnailBg": "#9C27B0",
+    "thumbnailIcon": "🧱",
+    "controls": "方向键 / 滑动",
+    "players": "单人",
+    "difficulty": "中等"
+  },
+  {
+    "id": "minesweeper",
+    "title": "扫雷",
+    "titleEn": "Minesweeper",
+    "category": "puzzle",
+    "categoryName": "益智",
+    "description": "经典扫雷游戏，运用逻辑推理找出所有隐藏的地雷！",
+    "thumbnailBg": "#607D8B",
+    "thumbnailIcon": "💣",
+    "controls": "鼠标 / 触屏点击",
+    "players": "单人",
+    "difficulty": "中等"
+  }
+]

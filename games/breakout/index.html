@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>打砖块</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="game-container">
+    <div class="game-header">
+      <span>🧱 打砖块</span>
+      <span>得分: <span id="score">0</span></span>
+      <span>生命: <span id="lives">❤️❤️❤️</span></span>
+    </div>
+    <canvas id="canvas"></canvas>
+    <div class="game-overlay" id="overlay">
+      <div class="overlay-content">
+        <h2 id="overlayTitle">打砖块</h2>
+        <p id="overlayMsg">点击开始游戏</p>
+        <p class="overlay-hint">移动鼠标或滑动控制挡板</p>
+      </div>
+    </div>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>

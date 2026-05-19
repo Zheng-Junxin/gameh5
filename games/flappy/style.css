@@ -1,0 +1,42 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #1a1a2e;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  overflow: hidden;
+  touch-action: none;
+}
+.game-container {
+  max-width: 420px;
+  width: 95vw;
+  position: relative;
+}
+canvas {
+  display: block;
+  width: 100%;
+  border-radius: 16px;
+}
+.game-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+}
+.overlay-content { text-align: center; color: #fff; }
+.overlay-content h2 { font-size: 1.8rem; margin-bottom: 8px; }
+.overlay-content p { font-size: 0.95rem; opacity: 0.8; }
+.medal {
+  width: 60px; height: 60px;
+  border-radius: 50%;
+  margin: 12px auto 0;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

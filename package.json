@@ -1,0 +1,14 @@
+{
+  "name": "gameh5",
+  "version": "1.0.0",
+  "description": "H5 游戏大厅 - HTML5 Game Portal",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "ejs": "^3.1.10"
+  }
+}

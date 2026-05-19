@@ -1,0 +1,63 @@
+<%- include('partials/header') %>
+
+<div class="game-detail">
+  <div class="game-nav">
+    <a href="/" class="back-btn">← 返回首页</a>
+    <span class="game-nav-title"><%= game.thumbnailIcon %> <%= game.title %> <small><%= game.titleEn %></small></span>
+    <button class="fullscreen-btn" id="fullscreenBtn" title="全屏模式">⛶ 全屏</button>
+  </div>
+
+  <div class="game-frame-wrapper" id="gameFrameWrapper">
+    <iframe
+      src="/games/<%= game.id %>/index.html"
+      class="game-iframe"
+      id="gameIframe"
+      allow="autoplay"
+      scrolling="no"
+      title="<%= game.title %>">
+    </iframe>
+  </div>
+
+  <div class="game-info">
+    <div class="game-info-item">
+      <span class="info-label">操作说明</span>
+      <span class="info-value"><%= game.controls %></span>
+    </div>
+    <div class="game-info-item">
+      <span class="info-label">难度</span>
+      <span class="info-value"><%= game.difficulty %></span>
+    </div>
+    <div class="game-info-item">
+      <span class="info-label">类型</span>
+      <span class="info-value"><%= game.categoryName %></span>
+    </div>
+    <div class="game-info-item">
+      <span class="info-label">人数</span>
+      <span class="info-value"><%= game.players %></span>
+    </div>
+  </div>
+
+  <div class="game-description">
+    <p><%= game.description %></p>
+  </div>
+
+  <% if (related.length > 0) { %>
+  <div class="related-games">
+    <h3>相关游戏推荐</h3>
+    <div class="related-grid">
+      <% related.forEach(function(g) { %>
+      <a href="/game/<%= g.id %>" class="related-card" style="--thumb-bg: <%= g.thumbnailBg %>">
+        <div class="related-thumb">
+          <span class="related-emoji"><%= g.thumbnailIcon %></span>
+        </div>
+        <span class="related-title"><%= g.title %></span>
+      </a>
+      <% }); %>
+    </div>
+  </div>
+  <% } %>
+</div>
+
+<link rel="stylesheet" href="/public/css/game-frame.css">
+<script src="/public/js/game-frame.js"></script>
+<%- include('partials/footer') %>

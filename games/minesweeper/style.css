@@ -1,0 +1,78 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #1a1a2e;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  touch-action: none;
+}
+.game-container {
+  max-width: 420px;
+  width: 95vw;
+}
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 10px;
+  color: #ff4444;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.game-header span:last-child { color: #4D96FF; }
+.face-btn {
+  font-size: 1.5rem;
+  width: 40px; height: 40px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.1);
+  cursor: pointer;
+}
+.face-btn:active { background: rgba(255,255,255,0.2); }
+.mode-toggle {
+  display: none;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.mode-btn {
+  padding: 6px 20px;
+  border: 2px solid rgba(255,255,255,0.2);
+  border-radius: 20px;
+  background: transparent;
+  color: #ccc;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.mode-btn.active {
+  background: rgba(255,255,255,0.15);
+  border-color: #fff;
+  color: #fff;
+}
+canvas {
+  display: block;
+  width: 100%;
+  border-radius: 10px;
+}
+.new-game-btn {
+  margin-top: 12px;
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.1);
+  color: #eee;
+  cursor: pointer;
+  font-weight: 600;
+}
+.new-game-btn:active { background: rgba(255,255,255,0.2); }
+@media (max-width: 600px) {
+  .mode-toggle { display: flex; }
+}

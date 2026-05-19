@@ -1,0 +1,45 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #1a1a2e;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  overflow: hidden;
+  touch-action: none;
+}
+.game-container {
+  max-width: 600px;
+  width: 95vw;
+  position: relative;
+}
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  color: #eee;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 8px 0;
+}
+canvas {
+  display: block;
+  width: 100%;
+  border-radius: 12px;
+  background: #0f0f23;
+  cursor: none;
+}
+.game-overlay {
+  position: absolute;
+  inset: 0;
+  top: 36px;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+}
+.overlay-content { text-align: center; color: #fff; }
+.overlay-content h2 { font-size: 1.5rem; margin-bottom: 8px; }
+.overlay-content p { font-size: 0.95rem; opacity: 0.9; }
+.overlay-hint { font-size: 0.8rem !important; opacity: 0.6 !important; margin-top: 6px; }

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>俄罗斯方块</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="game-container">
+    <div class="game-sidebar">
+      <div class="sidebar-section">
+        <h3>下一个</h3>
+        <canvas id="nextCanvas" class="next-canvas"></canvas>
+      </div>
+      <div class="sidebar-section">
+        <div class="stat">得分</div>
+        <div class="stat-value" id="score">0</div>
+      </div>
+      <div class="sidebar-section">
+        <div class="stat">等级</div>
+        <div class="stat-value" id="level">1</div>
+      </div>
+      <div class="sidebar-section">
+        <div class="stat">行数</div>
+        <div class="stat-value" id="lines">0</div>
+      </div>
+      <div class="sidebar-section">
+        <div class="stat">最高</div>
+        <div class="stat-value" id="best">0</div>
+      </div>
+    </div>
+    <div class="board-wrapper">
+      <canvas id="canvas"></canvas>
+      <div class="game-overlay" id="overlay">
+        <div class="overlay-content">
+          <h2 id="overlayTitle">俄罗斯方块</h2>
+          <p id="overlayMsg">按空格键开始</p>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-controls" id="mobileControls">
+      <div class="ctrl-row">
+        <button class="ctrl-btn" data-key="ArrowUp">↻</button>
+      </div>
+      <div class="ctrl-row">
+        <button class="ctrl-btn" data-key="ArrowLeft">◀</button>
+        <button class="ctrl-btn" data-key="ArrowDown">▼</button>
+        <button class="ctrl-btn" data-key="ArrowRight">▶</button>
+      </div>
+      <div class="ctrl-row">
+        <button class="ctrl-btn ctrl-wide" data-key=" ">⏬ 速降</button>
+      </div>
+    </div>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>

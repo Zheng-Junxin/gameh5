@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>扫雷</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="game-container">
+    <div class="game-header">
+      <span>💣 <span id="mineCount">10</span></span>
+      <button id="faceBtn" class="face-btn">🙂</button>
+      <span>⏱ <span id="timer">000</span></span>
+    </div>
+    <div class="mode-toggle">
+      <button id="revealMode" class="mode-btn active">🔍 翻开</button>
+      <button id="flagMode" class="mode-btn">🚩 标记</button>
+    </div>
+    <canvas id="canvas"></canvas>
+    <button id="newGameBtn" class="new-game-btn">🔄 新游戏</button>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>

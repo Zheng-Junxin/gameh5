@@ -1,0 +1,52 @@
+<%- include('partials/header') %>
+
+<section class="hero">
+  <h1 class="hero-title">🎮 精选H5小游戏</h1>
+  <p class="hero-subtitle">无需下载，即点即玩！随时随地享受游戏乐趣</p>
+</section>
+
+<section class="search-section">
+  <div class="search-bar">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" class="search-input" placeholder="搜索游戏..." value="<%= query.q || '' %>">
+    <button id="searchClear" class="search-clear" style="display: <%= query.q ? 'block' : 'none' %>">✕</button>
+  </div>
+</section>
+
+<section class="category-section">
+  <div class="category-filters">
+    <button class="cat-btn <%= !query.category || query.category === '' ? 'active' : '' %>" data-category="">全部</button>
+    <button class="cat-btn <%= query.category === 'casual' ? 'active' : '' %>" data-category="casual">🕹️ 休闲</button>
+    <button class="cat-btn <%= query.category === 'action' ? 'active' : '' %>" data-category="action">⚡ 动作</button>
+    <button class="cat-btn <%= query.category === 'puzzle' ? 'active' : '' %>" data-category="puzzle">🧩 益智</button>
+    <button class="cat-btn <%= query.category === 'classic' ? 'active' : '' %>" data-category="classic">🏆 经典</button>
+  </div>
+</section>
+
+<section class="games-section">
+  <div class="game-grid" id="gameGrid">
+    <% games.forEach(function(game) { %>
+    <a href="/game/<%= game.id %>" class="game-card"
+       data-title="<%= game.title %> <%= game.titleEn %>"
+       data-category="<%= game.category %>"
+       style="--thumb-bg: <%= game.thumbnailBg %>">
+      <div class="card-thumb">
+        <span class="card-emoji"><%= game.thumbnailIcon %></span>
+      </div>
+      <div class="card-body">
+        <h3 class="card-title"><%= game.title %></h3>
+        <div class="card-meta">
+          <span class="card-category"><%= game.categoryName %></span>
+          <span class="card-difficulty"><%= game.difficulty %></span>
+        </div>
+      </div>
+    </a>
+    <% }); %>
+  </div>
+  <div class="no-results" id="noResults" style="display: none;">
+    <p>😅 没有找到匹配的游戏，试试其他关键词吧！</p>
+  </div>
+</section>
+
+<script src="/public/js/homepage.js"></script>
+<%- include('partials/footer') %>

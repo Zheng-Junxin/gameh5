@@ -1,0 +1,110 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #faf8ef;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+.game-container {
+  max-width: 440px;
+  width: 95vw;
+  position: relative;
+}
+.header { margin-bottom: 16px; }
+.title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.title-row h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #776e65;
+}
+.scores { display: flex; gap: 8px; }
+.score-box {
+  background: #bbada0;
+  color: #fff;
+  padding: 6px 16px;
+  border-radius: 6px;
+  text-align: center;
+  min-width: 70px;
+}
+.score-label {
+  display: block;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+.score-box span:last-child {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+.subtitle {
+  color: #776e65;
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+.board {
+  background: #bbada0;
+  border-radius: 12px;
+  padding: 12px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  position: relative;
+}
+.tile {
+  aspect-ratio: 1;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.6rem;
+  background: #cdc1b4;
+  color: #776e65;
+  transition: transform 0.12s, top 0.12s, left 0.12s;
+}
+.tile[data-value] { animation: pop 0.15s; }
+@keyframes pop { 0% { transform: scale(0); } 80% { transform: scale(1.1); } 100% { transform: scale(1); } }
+.new-game-btn {
+  margin-top: 16px;
+  width: 100%;
+  padding: 14px;
+  font-size: 1rem;
+  font-weight: 600;
+  background: #8f7a66;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.new-game-btn:active { background: #7a6658; }
+.game-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.85);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  z-index: 10;
+}
+.overlay-content { text-align: center; }
+.overlay-content h2 { font-size: 2rem; color: #776e65; margin-bottom: 8px; }
+.overlay-content p { margin-bottom: 16px; color: #776e65; }
+.overlay-content button {
+  margin: 4px;
+  padding: 10px 24px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  background: #8f7a66;
+  color: #fff;
+}
+.overlay-content button:active { transform: scale(0.96); }

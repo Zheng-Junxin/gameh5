@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>记忆翻牌</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="game-container">
+    <div class="game-header">
+      <span>🃏 记忆翻牌</span>
+      <span>步数: <span id="moves">0</span></span>
+      <span>⏱ <span id="timer">00:00</span></span>
+    </div>
+    <div class="card-grid" id="cardGrid"></div>
+    <div class="game-overlay" id="overlay">
+      <div class="overlay-content">
+        <h2 id="overlayTitle">🎉 恭喜通关！</h2>
+        <p id="overlayMsg"></p>
+        <button id="restartBtn">再来一局</button>
+      </div>
+    </div>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>

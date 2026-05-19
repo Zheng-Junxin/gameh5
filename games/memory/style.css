@@ -1,0 +1,97 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  overflow: hidden;
+}
+.game-container {
+  max-width: 460px;
+  width: 95vw;
+  position: relative;
+}
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  color: #eee;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 8px 0;
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  perspective: 1000px;
+}
+.card {
+  aspect-ratio: 1;
+  position: relative;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.4s;
+  transform-style: preserve-3d;
+}
+.card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+.card-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.card-back {
+  background: linear-gradient(135deg, #E91E63, #AD1457);
+  box-shadow: 0 4px 12px rgba(233,30,99,0.3);
+  font-size: 1.8rem;
+  user-select: none;
+}
+.card-front {
+  background: #fff;
+  transform: rotateY(180deg);
+  font-size: 2.2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.card.matched .card-front {
+  background: linear-gradient(135deg, #C8E6C9, #A5D6A7);
+}
+.game-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+}
+.overlay-content {
+  text-align: center;
+  color: #fff;
+}
+.overlay-content h2 { font-size: 1.5rem; margin-bottom: 8px; }
+.overlay-content p { margin-bottom: 16px; opacity: 0.9; }
+#restartBtn {
+  padding: 10px 32px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 24px;
+  background: #E91E63;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(233,30,99,0.4);
+}
+#restartBtn:active { transform: scale(0.96); }
