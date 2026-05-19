@@ -7,25 +7,42 @@ const newGameBtn = document.getElementById('newGameBtn');
 const revealModeBtn = document.getElementById('revealMode');
 const flagModeBtn = document.getElementById('flagMode');
 
-const ROWS = 9, COLS = 9, MINES = 10;
-let CELL;
-let W, H;
+const DIFFICULTY = {
+  easy:   { rows: 9, cols: 9, mines: 10 },
+  medium: { rows: 16, cols: 16, mines: 40 },
+  hard:   { rows: 16, cols: 16, mines: 60 }
+};
+
+let ROWS, COLS, MINES;
+let CELL, W, H;
 let board, revealed, flagged, gameOver, firstClick, minesRemaining, timerSec, timerInterval;
 let flagMode = false;
+let difficulty = 'easy';
 
 function resize() {
   const container = canvas.parentElement;
-  const maxW = container.clientWidth - 8;
-  W = Math.min(maxW, 420);
-  H = W;
+  const maxW = Math.min(container.clientWidth - 8, COLS > 9 ? 500 : 420);
+  W = maxW;
   CELL = W / COLS;
+  H = ROWS * CELL;
   canvas.width = W;
   canvas.height = H;
   canvas.style.width = W + 'px';
   canvas.style.height = H + 'px';
 }
 
-const NUMBER_COLORS = ['', '#1a73e8', '#388e3c', '#d32f2f', '#7b1fa2', '#c62828', '#00838f', '#212121', '#757575'];
+const NUM_COLORS = ['', '#1a73e8', '#388e3c', '#d32f2f', '#7b1fa2', '#c62828', '#00838f', '#212121', '#757575'];
+
+function setDifficulty(d) {
+  difficulty = d;
+  const cfg = DIFFICULTY[d];
+  ROWS = cfg.rows; COLS = cfg.cols; MINES = cfg.mines;
+  const active = document.querySelector('.diff-btn.active');
+  if (active) active.classList.remove('active');
+  const target = document.querySelector(`.diff-btn[data-diff="${d}"]`);
+  if (target) target.classList.add('active');
+  init();
+}
 
 function init() {
   resize();
@@ -50,7 +67,6 @@ function placeMines(safeR, safeC) {
       if (r !== safeR || c !== safeC)
         positions.push({ r, c });
 
-  // Fisher-Yates partial shuffle
   for (let i = positions.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [positions[i], positions[j]] = [positions[j], positions[i]];
@@ -60,7 +76,6 @@ function placeMines(safeR, safeC) {
     board[positions[i].r][positions[i].c] = -1;
   }
 
-  // Calculate adjacent counts
   for (let r = 0; r < ROWS; r++) {
     for (let c = 0; c < COLS; c++) {
       if (board[r][c] === -1) continue;
@@ -76,9 +91,7 @@ function placeMines(safeR, safeC) {
 function reveal(r, c) {
   if (r < 0 || r >= ROWS || c < 0 || c >= COLS) return;
   if (revealed[r][c] || flagged[r][c]) return;
-
   revealed[r][c] = true;
-
   if (board[r][c] === 0) {
     for (let dr = -1; dr <= 1; dr++)
       for (let dc = -1; dc <= 1; dc++)
@@ -107,31 +120,27 @@ function draw() {
           ctx.fillStyle = '#111';
           ctx.beginPath(); ctx.arc(x + CELL / 2, y + CELL / 2, CELL * 0.15, 0, Math.PI * 2); ctx.fill();
         } else if (board[r][c] > 0) {
-          ctx.fillStyle = NUMBER_COLORS[board[r][c]];
+          ctx.fillStyle = NUM_COLORS[board[r][c]];
           ctx.font = `bold ${CELL * 0.55}px "PingFang SC", sans-serif`;
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillText(board[r][c], x + CELL / 2, y + CELL / 2 + 1);
         }
       } else {
-        // Raised cell
-        const bevel = CELL * 0.12;
+        const bv = CELL * 0.12;
         ctx.fillStyle = '#c0c0c0';
         ctx.fillRect(x, y, CELL, CELL);
 
-        // Top/left highlight
         ctx.fillStyle = '#ffffff';
         ctx.beginPath(); ctx.moveTo(x, y + CELL); ctx.lineTo(x, y); ctx.lineTo(x + CELL, y);
-        ctx.lineTo(x + CELL - bevel, y + bevel); ctx.lineTo(x + bevel, y + bevel); ctx.lineTo(x + bevel, y + CELL - bevel);
+        ctx.lineTo(x + CELL - bv, y + bv); ctx.lineTo(x + bv, y + bv); ctx.lineTo(x + bv, y + CELL - bv);
         ctx.closePath(); ctx.fill();
 
-        // Bottom/right shadow
         ctx.fillStyle = '#808080';
         ctx.beginPath(); ctx.moveTo(x + CELL, y); ctx.lineTo(x + CELL, y + CELL); ctx.lineTo(x, y + CELL);
-        ctx.lineTo(x + bevel, y + CELL - bevel); ctx.lineTo(x + CELL - bevel, y + CELL - bevel); ctx.lineTo(x + CELL - bevel, y + bevel);
+        ctx.lineTo(x + bv, y + CELL - bv); ctx.lineTo(x + CELL - bv, y + CELL - bv); ctx.lineTo(x + CELL - bv, y + bv);
         ctx.closePath(); ctx.fill();
 
-        // Flag
         if (flagged[r][c]) {
           ctx.fillStyle = '#d32f2f';
           ctx.beginPath();
@@ -168,7 +177,6 @@ function endGame(won) {
   clearInterval(timerInterval);
   gameOver = true;
   faceBtn.textContent = won ? '😎' : '😵';
-
   if (!won) {
     for (let r = 0; r < ROWS; r++)
       for (let c = 0; c < COLS; c++)
@@ -177,16 +185,15 @@ function endGame(won) {
   draw();
 }
 
-canvas.addEventListener('click', e => {
+function handleClick(clientX, clientY, isFlag) {
   if (gameOver) return;
   const rect = canvas.getBoundingClientRect();
   const scaleX = W / rect.width;
-  const r = Math.floor((e.clientY - rect.top) * scaleX / CELL);
-  const c = Math.floor((e.clientX - rect.left) * scaleX / CELL);
-
+  const r = Math.floor((clientY - rect.top) * scaleX / CELL);
+  const c = Math.floor((clientX - rect.left) * scaleX / CELL);
   if (r < 0 || r >= ROWS || c < 0 || c >= COLS) return;
 
-  if (flagMode) {
+  if (isFlag || flagMode) {
     if (!revealed[r][c]) {
       flagged[r][c] = !flagged[r][c];
       minesRemaining += flagged[r][c] ? -1 : 1;
@@ -214,44 +221,42 @@ canvas.addEventListener('click', e => {
 
   reveal(r, c);
   draw();
-
   if (checkWin()) endGame(true);
-});
+}
 
+// Mouse
+canvas.addEventListener('click', e => handleClick(e.clientX, e.clientY, false));
 canvas.addEventListener('contextmenu', e => {
   e.preventDefault();
-  if (gameOver) return;
-  const rect = canvas.getBoundingClientRect();
-  const scaleX = W / rect.width;
-  const r = Math.floor((e.clientY - rect.top) * scaleX / CELL);
-  const c = Math.floor((e.clientX - rect.left) * scaleX / CELL);
-  if (r < 0 || r >= ROWS || c < 0 || c >= COLS) return;
-  if (!revealed[r][c]) {
-    flagged[r][c] = !flagged[r][c];
-    minesRemaining += flagged[r][c] ? -1 : 1;
-    mineCountEl.textContent = minesRemaining;
-    draw();
-  }
+  handleClick(e.clientX, e.clientY, true);
 });
 
-// Mobile long press for flag
-let longPressTimer;
+// Touch
+let longPressTimer, touchCell;
 canvas.addEventListener('touchstart', e => {
   const rect = canvas.getBoundingClientRect();
   const scaleX = W / rect.width;
   const r = Math.floor((e.touches[0].clientY - rect.top) * scaleX / CELL);
   const c = Math.floor((e.touches[0].clientX - rect.left) * scaleX / CELL);
+  touchCell = { r, c };
   longPressTimer = setTimeout(() => {
-    if (!gameOver && !revealed[r][c]) {
-      flagged[r][c] = !flagged[r][c];
-      minesRemaining += flagged[r][c] ? -1 : 1;
-      mineCountEl.textContent = minesRemaining;
-      draw();
-    }
+    if (touchCell && !gameOver) handleClick(
+      rect.left + (c + 0.5) * CELL / scaleX,
+      rect.top + (r + 0.5) * CELL / scaleX,
+      true
+    );
   }, 500);
 });
-canvas.addEventListener('touchend', () => clearTimeout(longPressTimer));
-canvas.addEventListener('touchmove', () => clearTimeout(longPressTimer));
+canvas.addEventListener('touchend', e => {
+  clearTimeout(longPressTimer);
+  if (touchCell && !gameOver) handleClick(
+    rect.left + (touchCell.c + 0.5) * CELL / (W / canvas.getBoundingClientRect().width),
+    canvas.getBoundingClientRect().top + (touchCell.r + 0.5) * CELL / (W / canvas.getBoundingClientRect().width),
+    false
+  );
+  touchCell = null;
+});
+canvas.addEventListener('touchmove', () => { clearTimeout(longPressTimer); touchCell = null; });
 
 revealModeBtn.addEventListener('click', () => {
   flagMode = false;
@@ -264,7 +269,11 @@ flagModeBtn.addEventListener('click', () => {
   revealModeBtn.classList.remove('active');
 });
 
-faceBtn.addEventListener('click', init);
-newGameBtn.addEventListener('click', init);
+document.querySelectorAll('.diff-btn').forEach(btn => {
+  btn.addEventListener('click', () => setDifficulty(btn.getAttribute('data-diff')));
+});
 
-init();
+faceBtn.addEventListener('click', () => init());
+newGameBtn.addEventListener('click', () => init());
+
+setDifficulty(difficulty);

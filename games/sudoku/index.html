@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>数独</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="game-container">
+    <div class="game-header">
+      <span class="header-left">数独</span>
+      <div class="header-center">
+        <span class="diff-label">难度:</span>
+        <select id="difficultySelect">
+          <option value="easy">简单</option>
+          <option value="medium" selected>中等</option>
+          <option value="hard">困难</option>
+        </select>
+        <span class="level-info">第 <span id="levelNum">1</span> 关</span>
+      </div>
+      <span>⏱ <span id="timer">00:00</span></span>
+    </div>
+    <div class="board-wrapper">
+      <canvas id="canvas"></canvas>
+    </div>
+    <div class="num-pad" id="numPad">
+      <button class="num-btn" data-num="1">1</button>
+      <button class="num-btn" data-num="2">2</button>
+      <button class="num-btn" data-num="3">3</button>
+      <button class="num-btn" data-num="4">4</button>
+      <button class="num-btn" data-num="5">5</button>
+      <button class="num-btn" data-num="6">6</button>
+      <button class="num-btn" data-num="7">7</button>
+      <button class="num-btn" data-num="8">8</button>
+      <button class="num-btn" data-num="9">9</button>
+      <button class="num-btn del-btn">⌫</button>
+    </div>
+    <div class="bottom-bar">
+      <button id="newGameBtn">🔄 新游戏</button>
+      <button id="hintBtn">💡 提示 (<span id="hintCount">3</span>)</button>
+    </div>
+    <div class="game-overlay" id="overlay">
+      <div class="overlay-content">
+        <h2 id="overlayTitle"></h2>
+        <p id="overlayMsg"></p>
+        <button id="overlayBtn">确定</button>
+      </div>
+    </div>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #1a1a2e;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  touch-action: none;
+}
+.game-container { max-width: 440px; width: 95vw; }
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  color: #eee;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 8px 0;
+}
+.level-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0 8px;
+  gap: 8px;
+}
+.level-nav button {
+  padding: 5px 16px;
+  font-size: 0.8rem;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 14px;
+  background: transparent;
+  color: #ccc;
+  cursor: pointer;
+}
+.level-nav button:hover { border-color: rgba(255,255,255,0.3); }
+.level-info { color: #999; font-size: 0.8rem; }
+canvas { display: block; width: 100%; border-radius: 10px; background: #263238; }
+.mobile-btns { display: none; margin-top: 8px; text-align: center; }
+.dir-row { display: flex; justify-content: center; gap: 6px; }
+.dir-btn {
+  width: 48px; height: 48px; font-size: 1.1rem;
+  border: none; border-radius: 10px;
+  background: rgba(255,255,255,0.08); color: #eee;
+  cursor: pointer; margin: 2px;
+}
+.dir-btn:active { background: rgba(255,255,255,0.2); }
+.bottom-bar { display: flex; gap: 8px; margin-top: 10px; }
+.bottom-bar button {
+  flex: 1; padding: 10px;
+  font-size: 0.85rem; border: none; border-radius: 8px;
+  background: rgba(255,255,255,0.08); color: #ccc;
+  cursor: pointer; font-weight: 500;
+}
+.bottom-bar button:active { background: rgba(255,255,255,0.18); }
+.game-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.75);
+  display: none; align-items: center; justify-content: center;
+  z-index: 100;
+}
+.overlay-content { text-align: center; color: #fff; }
+.overlay-content h2 { font-size: 1.5rem; margin-bottom: 8px; }
+.overlay-content p { margin-bottom: 16px; }
+#overlayBtn {
+  padding: 10px 36px;
+  font-size: 1rem; border: none; border-radius: 24px;
+  background: #795548; color: #fff; cursor: pointer; font-weight: 600;
+}
+@media (max-width: 600px) {
+  .mobile-btns { display: block; }
+}

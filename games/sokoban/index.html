@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>推箱子</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="game-container">
+    <div class="game-header">
+      <span>📦 推箱子</span>
+      <span>第 <span id="levelNum">1</span> 关</span>
+      <span>步数: <span id="moves">0</span></span>
+    </div>
+    <div class="level-nav">
+      <button id="prevBtn">◀ 上一关</button>
+      <span class="level-info"><span id="completedCount">0</span>/<span id="totalLevels">25</span></span>
+      <button id="nextBtn">下一关 ▶</button>
+    </div>
+    <canvas id="canvas"></canvas>
+    <div class="mobile-btns">
+      <button class="dir-btn" data-dir="0,-1">▲</button>
+      <div class="dir-row">
+        <button class="dir-btn" data-dir="0,1">▼</button>
+        <button class="dir-btn" data-dir="-1,0">◀</button>
+        <button class="dir-btn" data-dir="1,0">▶</button>
+      </div>
+    </div>
+    <div class="bottom-bar">
+      <button id="undoBtn">↩ 撤销</button>
+      <button id="resetBtn">🔄 重置</button>
+    </div>
+    <div class="game-overlay" id="overlay">
+      <div class="overlay-content">
+        <h2 id="overlayTitle">🎉 通关！</h2>
+        <p id="overlayMsg"></p>
+        <button id="overlayBtn">下一关</button>
+      </div>
+    </div>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>

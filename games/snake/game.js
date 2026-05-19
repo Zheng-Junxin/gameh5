@@ -8,9 +8,10 @@ const overlayMsg = document.getElementById('overlayMsg');
 
 const GRID = 20;
 const CELL = 24;
-let W, H, cols, rows;
+const SPEEDS = { slow: 180, normal: 120, fast: 70 };
 
-let snake, food, dir, nextDir, score, best, gameState, tickTimer;
+let W, H, cols, rows;
+let snake, food, dir, nextDir, score, best, speed, gameState, tickTimer;
 let particles = [];
 
 function resize() {
@@ -37,6 +38,8 @@ function init() {
   scoreEl.textContent = '0';
   best = parseInt(localStorage.getItem('snakeBest') || '0');
   bestEl.textContent = best;
+  speed = localStorage.getItem('snakeSpeed') || 'normal';
+  updateSpeedButtons();
   spawnFood();
   particles = [];
 }
@@ -105,7 +108,6 @@ function draw() {
   ctx.fillStyle = '#0f0f23';
   ctx.fillRect(0, 0, W, H);
 
-  // Grid lines
   ctx.strokeStyle = 'rgba(255,255,255,0.03)';
   ctx.lineWidth = 0.5;
   for (let x = 0; x <= cols; x++) {
@@ -115,7 +117,6 @@ function draw() {
     ctx.beginPath(); ctx.moveTo(0, y * CELL); ctx.lineTo(W, y * CELL); ctx.stroke();
   }
 
-  // Food with pulse
   const pulse = 1 + Math.sin(Date.now() / 200) * 0.15;
   const fx = food.x * CELL + CELL / 2;
   const fy = food.y * CELL + CELL / 2;
@@ -125,7 +126,6 @@ function draw() {
   ctx.fillStyle = '#fff';
   ctx.beginPath(); ctx.arc(fx - fr * 0.25, fy - fr * 0.2, fr * 0.25, 0, Math.PI * 2); ctx.fill();
 
-  // Snake
   snake.forEach((s, i) => {
     const x = s.x * CELL + 1;
     const y = s.y * CELL + 1;
@@ -137,7 +137,6 @@ function draw() {
     ctx.roundRect(x, y, w, w, 6);
     ctx.fill();
 
-    // Eyes on head
     if (i === 0) {
       ctx.fillStyle = '#fff';
       const ex = dir.x === 0 ? 5 : (dir.x > 0 ? 14 : 2);
@@ -148,7 +147,6 @@ function draw() {
     }
   });
 
-  // Particles
   particles = particles.filter(p => p.life > 0);
   particles.forEach(p => {
     p.x += p.vx;
@@ -167,7 +165,7 @@ function startGame() {
   if (tickTimer) clearInterval(tickTimer);
   tickTimer = setInterval(() => {
     if (gameState === 'playing') update();
-  }, 120);
+  }, SPEEDS[speed] || SPEEDS.normal);
 }
 
 function setDirection(dx, dy) {
@@ -175,6 +173,26 @@ function setDirection(dx, dy) {
   if (dy !== 0 && dir.y === -dy) return;
   nextDir = { x: dx, y: dy };
 }
+
+function updateSpeedButtons() {
+  document.querySelectorAll('.speed-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-speed') === speed);
+  });
+}
+
+function setSpeed(s) {
+  speed = s;
+  localStorage.setItem('snakeSpeed', speed);
+  updateSpeedButtons();
+}
+
+// Speed buttons
+document.querySelectorAll('.speed-btn').forEach(btn => {
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    setSpeed(btn.getAttribute('data-speed'));
+  });
+});
 
 // Keyboard
 document.addEventListener('keydown', e => {
@@ -212,12 +230,10 @@ canvas.addEventListener('touchend', e => {
   touchStart = null;
 });
 
-// Click overlay
 overlay.addEventListener('click', () => {
   if (gameState !== 'playing') startGame();
 });
 
-// Mobile buttons
 document.querySelectorAll('.ctrl-btn').forEach(btn => {
   btn.addEventListener('touchstart', e => {
     e.preventDefault();
@@ -228,7 +244,6 @@ document.querySelectorAll('.ctrl-btn').forEach(btn => {
   });
 });
 
-// Init
 resize();
 init();
 draw();

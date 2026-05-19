@@ -6,25 +6,43 @@ body {
   align-items: center;
   min-height: 100vh;
   font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  overflow: hidden;
+  overflow-y: auto;
 }
-.game-container {
-  max-width: 460px;
-  width: 95vw;
-  position: relative;
-}
+.game-container { max-width: 520px; width: 95vw; position: relative; padding: 8px 0; }
 .game-header {
   display: flex;
   justify-content: space-between;
   color: #eee;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 600;
   padding: 8px 0;
 }
+.level-select {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 0 10px;
+  flex-wrap: wrap;
+}
+.level-label { color: #999; font-size: 0.78rem; white-space: nowrap; }
+.level-buttons { display: flex; gap: 3px; flex-wrap: wrap; }
+.lvl-btn {
+  width: 32px; height: 28px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 6px;
+  background: transparent;
+  color: #aaa;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.lvl-btn:hover { border-color: rgba(255,255,255,0.4); color: #fff; }
+.lvl-btn.active { background: rgba(233,30,99,0.3); border-color: #E91E63; color: #E91E63; }
+.lvl-btn.completed { border-color: #4CAF50; color: #4CAF50; }
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
+  gap: 8px;
   perspective: 1000px;
 }
 .card {
@@ -35,63 +53,57 @@ body {
 }
 .card-inner {
   position: relative;
-  width: 100%;
-  height: 100%;
+  width: 100%; height: 100%;
   transition: transform 0.4s;
   transform-style: preserve-3d;
 }
-.card.flipped .card-inner {
-  transform: rotateY(180deg);
-}
+.card.flipped .card-inner { transform: rotateY(180deg); }
 .card-face {
-  position: absolute;
-  inset: 0;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: absolute; inset: 0;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
 .card-back {
   background: linear-gradient(135deg, #E91E63, #AD1457);
-  box-shadow: 0 4px 12px rgba(233,30,99,0.3);
-  font-size: 1.8rem;
+  box-shadow: 0 3px 10px rgba(233,30,99,0.3);
+  font-size: 1.4rem;
   user-select: none;
 }
 .card-front {
   background: #fff;
   transform: rotateY(180deg);
-  font-size: 2.2rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  font-size: 1.6rem;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
 }
-.card.matched .card-front {
-  background: linear-gradient(135deg, #C8E6C9, #A5D6A7);
-}
+.card.matched .card-front { background: linear-gradient(135deg, #C8E6C9, #A5D6A7); }
 .game-overlay {
-  position: absolute;
-  inset: 0;
+  position: fixed; inset: 0;
   background: rgba(0,0,0,0.75);
   display: none;
-  align-items: center;
-  justify-content: center;
-  border-radius: 16px;
+  align-items: center; justify-content: center;
+  z-index: 100;
 }
-.overlay-content {
-  text-align: center;
-  color: #fff;
-}
+.overlay-content { text-align: center; color: #fff; }
 .overlay-content h2 { font-size: 1.5rem; margin-bottom: 8px; }
 .overlay-content p { margin-bottom: 16px; opacity: 0.9; }
-#restartBtn {
-  padding: 10px 32px;
-  font-size: 1rem;
-  border: none;
-  border-radius: 24px;
-  background: #E91E63;
-  color: #fff;
-  cursor: pointer;
-  font-weight: 600;
-  box-shadow: 0 4px 14px rgba(233,30,99,0.4);
+.overlay-content button {
+  margin: 4px;
+  padding: 10px 28px;
+  font-size: 0.95rem;
+  border: none; border-radius: 24px;
+  cursor: pointer; font-weight: 600;
 }
-#restartBtn:active { transform: scale(0.96); }
+#nextBtn { background: #E91E63; color: #fff; box-shadow: 0 4px 14px rgba(233,30,99,0.4); }
+#retryBtn { background: rgba(255,255,255,0.2); color: #fff; }
+.overlay-content button:active { transform: scale(0.96); }
+.bottom-bar { margin-top: 16px; text-align: center; }
+#resetBtn {
+  padding: 10px 28px;
+  font-size: 0.9rem;
+  border: none; border-radius: 20px;
+  background: rgba(255,255,255,0.08); color: #ccc;
+  cursor: pointer; font-weight: 500;
+}
+#resetBtn:active { background: rgba(255,255,255,0.18); }

@@ -89,5 +89,57 @@
     "controls": "鼠标 / 触屏点击",
     "players": "单人",
     "difficulty": "中等"
+  },
+  {
+    "id": "sudoku",
+    "title": "数独",
+    "titleEn": "Sudoku",
+    "category": "puzzle",
+    "categoryName": "益智",
+    "description": "经典数独游戏，20+关卡，简单/中等/困难三种难度！",
+    "thumbnailBg": "#1565C0",
+    "thumbnailIcon": "🧩",
+    "controls": "触屏点击 / 数字键",
+    "players": "单人",
+    "difficulty": "中等"
+  },
+  {
+    "id": "sokoban",
+    "title": "推箱子",
+    "titleEn": "Sokoban",
+    "category": "puzzle",
+    "categoryName": "益智",
+    "description": "经典推箱子游戏，25+关卡，锻炼逻辑思维能力！",
+    "thumbnailBg": "#795548",
+    "thumbnailIcon": "📦",
+    "controls": "方向键 / 滑动",
+    "players": "单人",
+    "difficulty": "困难"
+  },
+  {
+    "id": "reversi",
+    "title": "黑白棋",
+    "titleEn": "Reversi",
+    "category": "casual",
+    "categoryName": "休闲",
+    "description": "经典黑白棋游戏，翻转对手棋子占领棋盘！",
+    "thumbnailBg": "#37474F",
+    "thumbnailIcon": "⚫",
+    "controls": "鼠标 / 触屏点击",
+    "players": "双人/人机",
+    "difficulty": "中等"
+  },
+  {
+    "id": "gomoku",
+    "title": "五子棋",
+    "titleEn": "Gomoku",
+    "category": "casual",
+    "categoryName": "休闲",
+    "description": "五子连珠即获胜，支持双人对战和人机对战！",
+    "thumbnailBg": "#8D6E63",
+    "thumbnailIcon": "♟️",
+    "controls": "鼠标 / 触屏点击",
+    "players": "双人/人机",
+    "difficulty": "中等"
   }
 ]

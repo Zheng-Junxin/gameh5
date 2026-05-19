@@ -22,6 +22,35 @@ body {
   font-size: 0.9rem;
   font-weight: 600;
 }
+.speed-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 0 10px;
+}
+.speed-label {
+  color: #999;
+  font-size: 0.8rem;
+  margin-right: 4px;
+}
+.speed-btn {
+  padding: 4px 14px;
+  font-size: 0.8rem;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: transparent;
+  color: #aaa;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.speed-btn:hover { border-color: rgba(255,255,255,0.4); color: #fff; }
+.speed-btn.active {
+  background: rgba(76,175,80,0.3);
+  border-color: #4CAF50;
+  color: #4CAF50;
+  font-weight: 600;
+}
 canvas {
   display: block;
   width: 100%;

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>黑白棋</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="game-container">
+    <div class="game-header">
+      <span>⚫ 黑白棋</span>
+      <span id="turn">黑棋回合</span>
+      <span>⚪</span>
+    </div>
+    <div class="score-bar">
+      <span>⚫ <span id="blackScore">2</span></span>
+      <span>⚪ <span id="whiteScore">2</span></span>
+    </div>
+    <canvas id="canvas"></canvas>
+    <div class="bottom-bar">
+      <button id="newGameBtn">🔄 新游戏</button>
+      <button id="passBtn">⏭ 跳过</button>
+    </div>
+    <div class="game-overlay" id="overlay">
+      <div class="overlay-content">
+        <h2 id="overlayTitle"></h2>
+        <p id="overlayMsg"></p>
+        <button id="overlayBtn">再来一局</button>
+      </div>
+    </div>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>
