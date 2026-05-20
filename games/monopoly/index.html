@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>大富翁</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="game-container">
+<div class="game-header">
+<span>🎲 大富翁</span><span id="turnInfo">你的回合</span><span>💰 <span id="money">1500</span></span>
+</div>
+<canvas id="canvas"></canvas>
+<div class="game-log" id="log"></div>
+<div class="action-bar">
+<button id="rollBtn">🎲 掷骰子</button>
+<button id="endTurnBtn">⏭ 结束回合</button>
+</div>
+<div class="game-overlay" id="overlay">
+<div class="overlay-content">
+<h2 id="overlayTitle"></h2>
+<p id="overlayMsg"></p>
+<button id="overlayBtn">再来一局</button>
+</div>
+</div>
+</div>
+<script src="game.js"></script>
+</body>
+</html>

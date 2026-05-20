@@ -141,5 +141,70 @@
     "controls": "鼠标 / 触屏点击",
     "players": "双人/人机",
     "difficulty": "中等"
+  },
+  {
+    "id": "shooter",
+    "title": "飞机大战",
+    "titleEn": "Aircraft Battle",
+    "category": "action",
+    "categoryName": "动作",
+    "description": "经典飞机大战，消灭敌机获得高分，挑战你的反应速度！",
+    "thumbnailBg": "#0D47A1",
+    "thumbnailIcon": "🎯",
+    "controls": "方向键/WASD / 触摸拖动",
+    "players": "单人",
+    "difficulty": "中等"
+  },
+  {
+    "id": "runner",
+    "title": "跑酷达人",
+    "titleEn": "Runner",
+    "category": "action",
+    "categoryName": "动作",
+    "description": "跳跃躲避障碍收集金币，看看你能跑多远！",
+    "thumbnailBg": "#FF6D00",
+    "thumbnailIcon": "🏃",
+    "controls": "空格/点击跳跃",
+    "players": "单人",
+    "difficulty": "中等"
+  },
+  {
+    "id": "fighter",
+    "title": "格斗对决",
+    "titleEn": "Fighter",
+    "category": "action",
+    "categoryName": "动作",
+    "description": "剪刀石头布格斗，猜拳克制击败对手，五局三胜！",
+    "thumbnailBg": "#BF360C",
+    "thumbnailIcon": "🥊",
+    "controls": "点击招式按钮 / 123键",
+    "players": "人机对战",
+    "difficulty": "中等"
+  },
+  {
+    "id": "maze",
+    "title": "迷宫探险",
+    "titleEn": "Maze Explorer",
+    "category": "puzzle",
+    "categoryName": "益智",
+    "description": "随机生成迷宫，探索未知区域找到出口，关卡无限！",
+    "thumbnailBg": "#1B5E20",
+    "thumbnailIcon": "⚔️",
+    "controls": "方向键/WASD / 屏幕按钮",
+    "players": "单人",
+    "difficulty": "中等"
+  },
+  {
+    "id": "monopoly",
+    "title": "大富翁",
+    "titleEn": "Monopoly",
+    "category": "casual",
+    "categoryName": "休闲",
+    "description": "掷骰子走格子买房收租，与电脑对战看谁笑到最后！",
+    "thumbnailBg": "#FF8F00",
+    "thumbnailIcon": "🎲",
+    "controls": "点击按钮操作",
+    "players": "人机对战",
+    "difficulty": "简单"
   }
 ]

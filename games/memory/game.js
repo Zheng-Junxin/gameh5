@@ -78,12 +78,19 @@ function init() {
   overlay.style.display = 'none';
 
   grid.style.gridTemplateColumns = `repeat(${level.cols}, 1fr)`;
+  // Adjust gap and card sizing for larger grids
+  const maxCols = Math.max(level.cols, level.rows);
+  const gap = maxCols <= 4 ? 8 : maxCols <= 5 ? 6 : 5;
+  grid.style.gap = gap + 'px';
   render();
   buildLevelButtons();
 }
 
 function render() {
   grid.innerHTML = '';
+  const level = LEVELS[currentLevel];
+  const maxCols = Math.max(level.cols, level.rows);
+  const fontSize = maxCols <= 4 ? '1.8rem' : maxCols <= 5 ? '1.4rem' : '1.1rem';
   cards.forEach(card => {
     const cardEl = document.createElement('div');
     const cls = ['card'];
@@ -93,7 +100,7 @@ function render() {
     cardEl.innerHTML = `
       <div class="card-inner">
         <div class="card-face card-back">?</div>
-        <div class="card-face card-front">${card.emoji}</div>
+        <div class="card-face card-front" style="font-size:${fontSize}">${card.emoji}</div>
       </div>`;
     cardEl.addEventListener('click', () => flipCard(card.id));
     grid.appendChild(cardEl);

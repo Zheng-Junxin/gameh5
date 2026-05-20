@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>迷宫探险</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="game-container">
+<div class="game-header">
+<span>⚔️ 迷宫探险</span><span>第 <span id="level">1</span> 关</span><span>⏱ <span id="timer">00:00</span></span>
+</div>
+<canvas id="canvas"></canvas>
+<div class="mobile-btns">
+<div class="dir-row">
+<button class="d-btn" data-dir="-1,0">▲</button>
+</div>
+<div class="dir-row">
+<button class="d-btn" data-dir="1,0">▼</button>
+<button class="d-btn" data-dir="0,-1">◀</button>
+<button class="d-btn" data-dir="0,1">▶</button>
+</div>
+</div>
+<div class="bottom-bar">
+<button id="newBtn">🔄 新迷宫</button>
+<button id="hintBtn">💡 提示路径</button>
+</div>
+<div class="game-overlay" id="overlay">
+<div class="overlay-content">
+<h2 id="overlayTitle"></h2>
+<p id="overlayMsg"></p>
+<button id="overlayBtn">下一关</button>
+</div>
+</div>
+</div>
+<script src="game.js"></script>
+</body>
+</html>

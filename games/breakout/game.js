@@ -9,13 +9,14 @@ const overlayMsg = document.getElementById('overlayMsg');
 let W, H;
 let paddle, ball, bricks, score, lives, gameState;
 let particles = [];
+let stuckFrames = 0;
 
 const PADDLE_W = 100, PADDLE_H = 14;
 const BALL_R = 7;
 const BRICK_ROWS = 5, BRICK_COLS = 8;
 const BRICK_PAD = 4;
-
 const FALLBACK_W = 400, FALLBACK_H = 300;
+const MIN_VY = 1.5;
 
 function resize() {
   const container = canvas.parentElement;
@@ -30,6 +31,12 @@ function resize() {
 
 const BRICK_COLORS = ['#FF6B6B', '#FF8E53', '#FFD93D', '#6BCB77', '#4D96FF'];
 
+function clampBall() {
+  if (ball.x - BALL_R < 0) { ball.x = BALL_R; ball.dx = Math.abs(ball.dx); }
+  if (ball.x + BALL_R > W) { ball.x = W - BALL_R; ball.dx = -Math.abs(ball.dx); }
+  if (ball.y - BALL_R < 0) { ball.y = BALL_R; ball.dy = Math.abs(ball.dy); }
+}
+
 function init() {
   resize();
   paddle = { x: W / 2 - PADDLE_W / 2, y: H - 40, w: PADDLE_W, h: PADDLE_H };
@@ -38,6 +45,7 @@ function init() {
   lives = 3;
   gameState = 'waiting';
   particles = [];
+  stuckFrames = 0;
 
   const totalPad = BRICK_PAD * (BRICK_COLS + 1);
   const bw = (W - totalPad) / BRICK_COLS;
@@ -48,8 +56,7 @@ function init() {
       bricks.push({
         x: BRICK_PAD + c * (bw + BRICK_PAD),
         y: 50 + r * (bh + BRICK_PAD),
-        w: bw,
-        h: bh,
+        w: bw, h: bh,
         color: BRICK_COLORS[r],
         alive: true
       });
@@ -107,80 +114,112 @@ function spawnParticles(x, y, color) {
       x, y,
       vx: (Math.random() - 0.5) * 5,
       vy: (Math.random() - 0.5) * 5,
-      life: 1,
-      color
+      life: 1
     });
   }
 }
 
 function ballHitPaddle() {
   const hitPos = (ball.x - paddle.x) / paddle.w;
-  const angle = (hitPos - 0.5) * Math.PI * 0.7;
+  const angle = (hitPos - 0.5) * Math.PI * 0.6;
   const speed = Math.sqrt(ball.dx ** 2 + ball.dy ** 2);
   ball.dx = Math.sin(angle) * speed;
   ball.dy = -Math.abs(Math.cos(angle) * speed);
-}
-
-function ballHitBrick(brick) {
-  const prevX = ball.x - ball.dx, prevY = ball.y - ball.dy;
-  if (prevX + BALL_R <= brick.x) ball.dx = -Math.abs(ball.dx);
-  else if (prevX - BALL_R >= brick.x + brick.w) ball.dx = Math.abs(ball.dx);
-  else if (prevY + BALL_R <= brick.y) ball.dy = -Math.abs(ball.dy);
-  else if (prevY - BALL_R >= brick.y + brick.h) ball.dy = Math.abs(ball.dy);
-  else ball.dy *= -1;
+  // Prevent too-horizontal trajectories
+  if (Math.abs(ball.dy) < MIN_VY) {
+    ball.dy = ball.dy >= 0 ? MIN_VY : -MIN_VY;
+  }
 }
 
 function update() {
   if (gameState !== 'playing') return;
 
-  ball.x += ball.dx;
-  ball.y += ball.dy;
+  // Move ball step by step to prevent tunneling
+  const speed = Math.sqrt(ball.dx ** 2 + ball.dy ** 2);
+  const steps = Math.ceil(speed / (BALL_R * 0.8));
+  const stepDx = ball.dx / steps;
+  const stepDy = ball.dy / steps;
+  let movedX = 0, movedY = 0;
 
-  if (ball.x - BALL_R <= 0) { ball.x = BALL_R; ball.dx = Math.abs(ball.dx); }
-  if (ball.x + BALL_R >= W) { ball.x = W - BALL_R; ball.dx = -Math.abs(ball.dx); }
-  if (ball.y - BALL_R <= 0) { ball.y = BALL_R; ball.dy = Math.abs(ball.dy); }
+  for (let s = 0; s < steps; s++) {
+    ball.x += stepDx;
+    ball.y += stepDy;
+    movedX += Math.abs(stepDx);
+    movedY += Math.abs(stepDy);
 
-  if (ball.dy > 0 &&
-      ball.y + BALL_R >= paddle.y &&
-      ball.y - BALL_R <= paddle.y + paddle.h &&
-      ball.x >= paddle.x &&
-      ball.x <= paddle.x + paddle.w) {
-    ball.y = paddle.y - BALL_R;
-    ballHitPaddle();
+    // Wall collisions
+    if (ball.x - BALL_R <= 0) { ball.x = BALL_R; ball.dx = Math.abs(ball.dx); }
+    if (ball.x + BALL_R >= W) { ball.x = W - BALL_R; ball.dx = -Math.abs(ball.dx); }
+    if (ball.y - BALL_R <= 0) { ball.y = BALL_R; ball.dy = Math.abs(ball.dy); }
+
+    // Paddle collision
+    if (ball.dy > 0 &&
+        ball.y + BALL_R >= paddle.y &&
+        ball.y - BALL_R <= paddle.y + paddle.h &&
+        ball.x >= paddle.x &&
+        ball.x <= paddle.x + paddle.w) {
+      ball.y = paddle.y - BALL_R;
+      ballHitPaddle();
+    }
+
+    // Brick collisions - check all bricks
+    for (const b of bricks) {
+      if (!b.alive) continue;
+      if (ball.x + BALL_R > b.x && ball.x - BALL_R < b.x + b.w &&
+          ball.y + BALL_R > b.y && ball.y - BALL_R < b.y + b.h) {
+        b.alive = false;
+        // Determine hit side and push ball out
+        const overlapLeft = (ball.x + BALL_R) - b.x;
+        const overlapRight = (b.x + b.w) - (ball.x - BALL_R);
+        const overlapTop = (ball.y + BALL_R) - b.y;
+        const overlapBottom = (b.y + b.h) - (ball.y - BALL_R);
+        const minOverlap = Math.min(overlapLeft, overlapRight, overlapTop, overlapBottom);
+
+        if (minOverlap === overlapTop)      { ball.y = b.y - BALL_R;     ball.dy = -Math.abs(ball.dy); }
+        else if (minOverlap === overlapBottom) { ball.y = b.y + b.h + BALL_R; ball.dy = Math.abs(ball.dy); }
+        else if (minOverlap === overlapLeft)  { ball.x = b.x - BALL_R;     ball.dx = -Math.abs(ball.dx); }
+        else                                 { ball.x = b.x + b.w + BALL_R; ball.dx = Math.abs(ball.dx); }
+
+        if (Math.abs(ball.dy) < MIN_VY) { ball.dy = ball.dy >= 0 ? MIN_VY : -MIN_VY; }
+        score += 10;
+        scoreEl.textContent = score;
+        spawnParticles(b.x + b.w / 2, b.y + b.h / 2, b.color);
+        break;
+      }
+    }
   }
 
+  // Ball loss
   if (ball.y - BALL_R > H) {
     lives--;
     livesEl.textContent = '❤️'.repeat(Math.max(0, lives));
     if (lives <= 0) {
       gameOver();
-    } else {
-      ball.x = W / 2;
-      ball.y = H - 50;
-      ball.dx = 4;
-      ball.dy = -4;
-      paddle.x = W / 2 - PADDLE_W / 2;
+      return;
     }
+    ball.x = W / 2; ball.y = H - 50;
+    ball.dx = (Math.random() > 0.5 ? 1 : -1) * 4;
+    ball.dy = -4;
+    paddle.x = W / 2 - PADDLE_W / 2;
   }
 
-  for (const b of bricks) {
-    if (!b.alive) continue;
-    if (ball.x + BALL_R > b.x && ball.x - BALL_R < b.x + b.w &&
-        ball.y + BALL_R > b.y && ball.y - BALL_R < b.y + b.h) {
-      b.alive = false;
-      ballHitBrick(b);
-      score += 10;
-      scoreEl.textContent = score;
-      spawnParticles(b.x + b.w / 2, b.y + b.h / 2, b.color);
-      break;
+  // Anti-stuck: if ball is bouncing too many times in same area, give it a nudge
+  if (Math.abs(ball.dy) < 0.5) {
+    stuckFrames++;
+    if (stuckFrames > 60) {
+      ball.dy = Math.random() > 0.5 ? -MIN_VY : MIN_VY;
+      stuckFrames = 0;
     }
+  } else {
+    stuckFrames = 0;
   }
 
-  const speed = Math.sqrt(ball.dx ** 2 + ball.dy ** 2);
-  const maxSpeed = 8;
-  if (speed > maxSpeed) {
-    ball.dx = ball.dx / speed * maxSpeed;
-    ball.dy = ball.dy / speed * maxSpeed;
+  // Speed cap
+  const finalSpeed = Math.sqrt(ball.dx ** 2 + ball.dy ** 2);
+  const maxSpeed = 7;
+  if (finalSpeed > maxSpeed) {
+    ball.dx = ball.dx / finalSpeed * maxSpeed;
+    ball.dy = ball.dy / finalSpeed * maxSpeed;
   }
 
   if (bricks.every(b => !b.alive)) gameWin();
@@ -208,7 +247,6 @@ function startPlaying() {
   overlay.style.display = 'none';
 }
 
-// Input
 canvas.addEventListener('mousemove', e => {
   if (gameState !== 'playing' || W <= 0) return;
   const rect = canvas.getBoundingClientRect();
@@ -226,8 +264,8 @@ canvas.addEventListener('touchmove', e => {
 
 document.addEventListener('keydown', e => {
   if (gameState !== 'playing') return;
-  if (e.key === 'ArrowLeft') paddle.x = Math.max(paddle.x - 25, 0);
-  if (e.key === 'ArrowRight') paddle.x = Math.min(paddle.x + 25, W - paddle.w);
+  if (e.key === 'ArrowLeft' || e.key === 'a') paddle.x = Math.max(paddle.x - 30, 0);
+  if (e.key === 'ArrowRight' || e.key === 'd') paddle.x = Math.min(paddle.x + 30, W - paddle.w);
 });
 
 overlay.addEventListener('click', () => {

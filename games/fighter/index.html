@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>格斗对决</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="game-container">
+<div class="game-header">
+<span>🥊 格斗对决</span><span id="roundInfo">第1回合</span><span>🏆 <span id="wins">0</span>胜</span>
+</div>
+<canvas id="canvas"></canvas>
+<div class="action-bar">
+<button class="act-btn" data-move="rock">👊 拳</button>
+<button class="act-btn" data-move="paper">🖐 防</button>
+<button class="act-btn" data-move="scissors">✌️ 踢</button>
+</div>
+<div class="hp-bar"><span>我方</span><div class="bar-bg"><div class="bar-fill p1" id="p1Hp"></div></div><span id="p1HpText">100</span></div>
+<div class="hp-bar"><span>对手</span><div class="bar-bg"><div class="bar-fill p2" id="p2Hp"></div></div><span id="p2HpText">100</span></div>
+<div class="game-overlay" id="overlay">
+<div class="overlay-content">
+<h2 id="overlayTitle"></h2>
+<p id="overlayMsg"></p>
+<button id="overlayBtn">再来一局</button>
+</div>
+</div>
+</div>
+<script src="game.js"></script>
+</body>
+</html>
