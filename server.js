@@ -20,8 +20,8 @@ app.use((req, res, next) => {
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Static files with caching
-const staticOpts = { maxAge: '7d', etag: true };
+// Static files (no maxAge so browser always revalidates via ETag)
+const staticOpts = { etag: true, lastModified: true };
 app.use('/public', express.static(path.join(__dirname, 'public'), staticOpts));
 app.use('/games', express.static(path.join(__dirname, 'games'), staticOpts));
 
